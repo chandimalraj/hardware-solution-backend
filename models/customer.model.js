@@ -1,31 +1,28 @@
-// salesrep.model.js
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Order = require("../models/order.model");
 
-const Salesrep = sequelize.define("salesrep", {
+const Customer = sequelize.define("customer", {
   // Define model attributes
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
+  customer_name: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    unique: true,
+  },
+
+  customer_address: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  nic: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
 });
 
-Salesrep.hasMany(Order);
-Order.belongsTo(Salesrep);
-module.exports = Salesrep;
+Customer.hasMany(Order);
+Order.belongsTo(Customer);
+
+module.exports = Customer;

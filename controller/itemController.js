@@ -32,6 +32,7 @@ exports.addItem = async (req, res) => {
         message: "Item Created Successfully",
         data: saved.dataValues,
       });
+      return;
     }
 
     res.status(201).json({
@@ -51,6 +52,7 @@ exports.uploadItemImage = async (req, res) => {
   try {
     if (!req.file) {
       res.status(404).json({ error: "File is not found" });
+      return;
     }
 
     const file = req.file;
@@ -104,8 +106,8 @@ const uploadImage = async (file) => {
 
 exports.editItem = async (req, res) => {
   const { id, name, image_url, quantity, price, category } = req.body;
-  console.log(req.body)
-  
+  console.log(req.body);
+
   try {
     const record = await Item.findByPk(id);
     if (req.file) {
@@ -123,7 +125,7 @@ exports.editItem = async (req, res) => {
         message: "Item Created Successfully",
         data: saved.dataValues,
       });
-      return
+      return;
     }
 
     record.name = name;
@@ -131,14 +133,14 @@ exports.editItem = async (req, res) => {
     record.price = price;
     record.category = category;
     const saved = await record.save();
-    
+
     res.status(201).json({
       status: 201,
       message: "Item Created Successfully",
       data: saved.dataValues,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       error: "Internal server error",
     });

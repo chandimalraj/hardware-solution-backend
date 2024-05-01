@@ -21,7 +21,7 @@ exports.loginUser = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, config.get("jwtsecret"), {
+    const token = jwt.sign({ userId: user.id ,type:'SYSTEM_USER'}, config.get("jwtsecret"), {
       expiresIn: "48h",
     });
 
@@ -37,7 +37,7 @@ exports.loginUser = async (req, res) => {
 exports.loginSalesRep = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await SalesRep.findOne({ where: { username: username } });
+    const user = await SalesRep.findOne({ where: { name: username } });
     const hashedPassword = user.dataValues.password;
     console.log(hashedPassword);
     if (!user) {
@@ -50,7 +50,7 @@ exports.loginSalesRep = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, config.get("jwtsecret"), {
+    const token = jwt.sign({ userId: user.id ,type:'SALES_REP'}, config.get("jwtsecret"), {
       expiresIn: "48h",
     });
 
