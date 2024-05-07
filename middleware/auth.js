@@ -4,6 +4,7 @@ const config = require("config");
 module.exports = function (req, res, next) {
   // Get token from header
   const authHeader = req.headers["authorization"];
+  console.log("Auth Middleware")
   let token
   if (typeof authHeader !== "undefined") {
     // Split the Authorization header value
