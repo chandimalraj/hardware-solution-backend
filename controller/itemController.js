@@ -187,11 +187,12 @@ exports.getItems = async (req, res) => {
 };
 
 exports.getItemsByName = async (req, res) => {
-  const { name } = req.query;
+  const { name , category } = req.query;
 
   try {
     const items = await Item.findAll({
       where: {
+        category:category,
         name: {
           [Op.like]: `${name}%`, // Case-insensitive search for name
         },
