@@ -148,12 +148,15 @@ exports.editItem = async (req, res) => {
 };
 
 exports.getItemsByCategory = async (req, res) => {
-  const { category } = req.params;
+  const { category } = req.query;
   try {
+    if (!category) {
+      return res.status(400).json({ error: "Category is required" });
+    }
     const records = await Item.findAll({
       where: {
-        category: category
-      }
+        category: category,
+      },
     });
     res.status(200).json({
       status: 200,
@@ -166,6 +169,7 @@ exports.getItemsByCategory = async (req, res) => {
     });
   }
 };
+
 exports.getItems = async (req, res) => {
   try {
     const records = await Item.findAll();
