@@ -146,3 +146,18 @@ exports.editItem = async (req, res) => {
     });
   }
 };
+
+exports.getItems = async (req, res) => {
+  try {
+    const records = await Item.findAll();
+    res.status(200).json({
+      status: 200,
+      message: "Items Fetched Successfully",
+      data: records,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
