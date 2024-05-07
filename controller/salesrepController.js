@@ -90,3 +90,19 @@ exports.editSalesRep = async (req, res) => {
     });
   }
 };
+
+exports.getSalesReps = async (req, res) => {
+
+  try {
+    const records = await SalesRep.findAll()
+    res.status(200).json({
+      status: 200,
+      message: "SalesReps Fetched Successfully",
+      data: records,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
