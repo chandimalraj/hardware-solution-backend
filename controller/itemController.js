@@ -2,6 +2,7 @@ const config = require("config");
 const Item = require("../models/item.model");
 const axios = require("axios");
 const FormData = require("form-data");
+const { Op } = require("sequelize");
 
 exports.addItem = async (req, res) => {
   const { id, name, image_url, quantity, price, category } = req.body;
