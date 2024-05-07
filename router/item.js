@@ -11,5 +11,6 @@ router.post("/addItemImage",auth,upload.single('file'),itemController.uploadItem
 router.post("/editItem",auth,upload.single('file'),itemController.editItem);
 router.get("/getAllItems",auth,itemController.getItems);
 router.get("/getItemsByCategory",auth,itemController.getItemsByCategory);
+router.get("/getItemsByName",auth,itemController.getItemsByName);
 
 module.exports = router;

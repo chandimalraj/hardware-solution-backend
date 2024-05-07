@@ -184,3 +184,30 @@ exports.getItems = async (req, res) => {
     });
   }
 };
+
+exports.getItemsByName = async (req, res) => {
+  const { name } = req.query;
+
+  try {
+    const items = await Item.findAll({
+      where: {
+        name: {
+          [Op.like]: `${name}%`, // Case-insensitive search for name
+        },
+      },
+      offset: 0,
+      limit: 20,
+    });
+
+    res.status(200).json({
+      status: 200,
+      message: "Items Are Fetched Successfully",
+      data: items,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
