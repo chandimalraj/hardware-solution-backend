@@ -6,6 +6,6 @@ const auth = require('../middleware/auth')
 router.post("/login",salesRepController.loginSalesRep);
 router.post("/addSalesRep",auth,salesRepController.addSalesRep);
 router.post("/editSalesRep",auth,salesRepController.editSalesRep);
-router.post("/getSalesReps",auth,salesRepController.getSalesReps);
+router.get("/getSalesReps",auth,salesRepController.getSalesReps);
 
 module.exports = router
