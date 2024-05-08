@@ -123,11 +123,25 @@ exports.editItem = async (req, res) => {
       const saved = await record.save();
       res.status(201).json({
         status: 201,
-        message: "Item Created Successfully",
+        message: "Item Updated Successfully",
         data: saved.dataValues,
       });
       return;
     }
+    if (image_url) {
+      record.name = name;
+      record.quantity = quantity;
+      record.price = price;
+      record.category = category;
+      const saved = await record.save();
+      res.status(201).json({
+        status: 201,
+        message: "Item Updated Successfully",
+        data: saved.dataValues,
+      });
+      return;
+    }
+    
 
     record.name = name;
     record.quantity = quantity;
@@ -187,12 +201,12 @@ exports.getItems = async (req, res) => {
 };
 
 exports.getItemsByName = async (req, res) => {
-  const { name , category } = req.query;
+  const { name, category } = req.query;
 
   try {
     const items = await Item.findAll({
       where: {
-        category:category,
+        category: category,
         name: {
           [Op.like]: `${name}%`, // Case-insensitive search for name
         },
