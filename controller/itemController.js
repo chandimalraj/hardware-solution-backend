@@ -233,7 +233,7 @@ exports.deleteItem = async (req, res) => {
 
   try {
      // Find the user by ID
-     const item = await Item.findByPk(userId);
+     const item = await Item.findByPk(id);
 
      if (!item) {
        return res.status(404).json({ message: 'User not found' });
