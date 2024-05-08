@@ -227,3 +227,28 @@ exports.getItemsByName = async (req, res) => {
     });
   }
 };
+
+exports.deleteItem = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+     // Find the user by ID
+     const item = await Item.findByPk(userId);
+
+     if (!item) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+ 
+     // Delete the user
+     await item.destroy();
+ 
+     res.status(200).json({ message: 'User deleted successfully' });
+
+   
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};

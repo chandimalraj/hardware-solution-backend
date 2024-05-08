@@ -12,5 +12,6 @@ router.post("/editItem",auth,upload.single('file'),itemController.editItem);
 router.get("/getAllItems",auth,itemController.getItems);
 router.get("/getItemsByCategory",auth,itemController.getItemsByCategory);
 router.get("/getItemsByName",auth,itemController.getItemsByName);
+router.delete("/deleteItem",auth,itemController.deleteItem);
 
 module.exports = router;
