@@ -167,6 +167,12 @@ exports.getItemsByCategory = async (req, res) => {
     if (!category) {
       return res.status(400).json({ error: "Category is required" });
     }
+    const getRecords = await Item.findAll({
+      where: {
+        category: category,
+      },
+      
+    });
     const records = await Item.findAll({
       where: {
         category: category,
@@ -174,7 +180,7 @@ exports.getItemsByCategory = async (req, res) => {
       offset: (parseInt(page) - 1) * parseInt(pageSize),
       limit: parseInt(pageSize),
     });
-    const totalCount = records.length; // Total number of records
+    const totalCount = getRecords.length; // Total number of records
     const totalPages = Math.ceil(totalCount / parseInt(pageSize)); // Calculate total pages
     res.status(200).json({
       status: 200,
