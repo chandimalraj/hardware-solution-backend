@@ -141,7 +141,6 @@ exports.editItem = async (req, res) => {
       });
       return;
     }
-    
 
     record.name = name;
     record.quantity = quantity;
@@ -201,9 +200,10 @@ exports.getItems = async (req, res) => {
 };
 
 exports.getItemsByName = async (req, res) => {
-  const { name, category } = req.query;
+  const { name, category ,page,pageSize } = req.query;
 
   try {
+    
     const items = await Item.findAll({
       where: {
         category: category,
@@ -211,14 +211,20 @@ exports.getItemsByName = async (req, res) => {
           [Op.like]: `${name}%`, // Case-insensitive search for name
         },
       },
-      offset: 0,
-      limit: 20,
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
     });
+    const totalCount = items.length; // Total number of records
+    const totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages
 
     res.status(200).json({
       status: 200,
       message: "Items Are Fetched Successfully",
       data: items,
+      totalPages: totalPages,
+      currentPage: page,
+      pageSize: pageSize,
+      totalCount: totalCount,
     });
   } catch (error) {
     console.log(error);
@@ -232,19 +238,17 @@ exports.deleteItem = async (req, res) => {
   const { id } = req.query;
 
   try {
-     // Find the user by ID
-     const item = await Item.findByPk(id);
+    // Find the user by ID
+    const item = await Item.findByPk(id);
 
-     if (!item) {
-       return res.status(404).json({ message: 'User not found' });
-     }
- 
-     // Delete the user
-     await item.destroy();
- 
-     res.status(200).json({ message: 'User deleted successfully' });
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
 
-   
+    // Delete the user
+    await item.destroy();
+
+    res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({
