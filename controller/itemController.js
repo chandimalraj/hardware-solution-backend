@@ -162,7 +162,7 @@ exports.editItem = async (req, res) => {
 };
 
 exports.getItemsByCategory = async (req, res) => {
-  const { category } = req.query;
+  const { category ,page,pageSize } = req.query;
   try {
     if (!category) {
       return res.status(400).json({ error: "Category is required" });
@@ -171,11 +171,19 @@ exports.getItemsByCategory = async (req, res) => {
       where: {
         category: category,
       },
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
     });
+    const totalCount = records.length; // Total number of records
+    const totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages
     res.status(200).json({
       status: 200,
       message: "Items Fetched Successfully",
       data: records,
+      totalPages: totalPages,
+      currentPage: page,
+      pageSize: pageSize,
+      totalCount: totalCount
     });
   } catch (error) {
     res.status(500).json({
