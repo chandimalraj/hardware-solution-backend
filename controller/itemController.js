@@ -171,11 +171,11 @@ exports.getItemsByCategory = async (req, res) => {
       where: {
         category: category,
       },
-      offset: (page - 1) * pageSize,
-      limit: pageSize,
+      offset: (parseInt(page) - 1) * parseInt(pageSize),
+      limit: parseInt(pageSize),
     });
     const totalCount = records.length; // Total number of records
-    const totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages
+    const totalPages = Math.ceil(totalCount / parseInt(pageSize)); // Calculate total pages
     res.status(200).json({
       status: 200,
       message: "Items Fetched Successfully",
