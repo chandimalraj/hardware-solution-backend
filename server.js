@@ -23,6 +23,9 @@ const itemRouter = require("./router/item");
 const customerRouter = require("./router/customer");
 const orderRouter = require("./router/order");
 
+app.get('/', (req, res) => {
+  res.send('Hello, Hardware Solution!');
+})
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/salesrep", salesrepRouter);
