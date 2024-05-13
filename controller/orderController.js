@@ -10,7 +10,7 @@ exports.addOrder = async (req, res) => {
   const t = await sequelize.transaction();
   try {
     const data = {
-      id: id,
+      // id: id,
       payment_type: paymentType,
       customerId: customerId,
       salesrepId: salesrepId,

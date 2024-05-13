@@ -48,7 +48,7 @@ exports.addSalesRep = async (req, res) => {
 
   try {
     const data = {
-      id: id,
+      // id: id,
       name: name,
       password: hashedPassword,
       nic: nic,

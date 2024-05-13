@@ -54,7 +54,7 @@ exports.addSalesRep = async (req, res) => {
     // Hash the password with the salt
     const hashedPassword = await bcrypt.hash(password, salt);
     const data = {
-      id: id,
+      // id: id,
       name: name,
       password: hashedPassword,
       nic: nic,

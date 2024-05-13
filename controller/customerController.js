@@ -8,7 +8,7 @@ exports.addCustomer = async (req, res) => {
 
   try {
     const data = {
-      id: id,
+      // id: id,
       customer_name: customer_name,
       customer_address: customer_address,
     };
