@@ -22,7 +22,7 @@ exports.addUser = async (req, res) => {
     // Hash the password with the salt
     const hashedPassword = await bcrypt.hash(password, salt);
     const data = {
-      id: id,
+      // id: id,
       username: username,
       password: hashedPassword,
       role: role,
