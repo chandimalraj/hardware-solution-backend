@@ -23,15 +23,17 @@ const itemRouter = require("./router/item");
 const customerRouter = require("./router/customer");
 const orderRouter = require("./router/order");
 
-app.get('/', (req, res) => {
-  res.send('Hello, Hardware Solution!');
-})
+
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/salesrep", salesrepRouter);
 app.use("/api/item", itemRouter);
 app.use("/api/customer", customerRouter);
 app.use("/api/order", orderRouter);
+
+app.get('/', (req, res) => {
+  res.send('Hello, Hardware Solution!');
+})
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
