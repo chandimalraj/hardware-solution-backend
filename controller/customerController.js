@@ -98,3 +98,27 @@ exports.getCustomersByName = async (req, res) => {
     });
   }
 };
+
+
+exports.deleteCustomer = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    // Find the user by ID
+    const customer = await Customer.findByPk(id);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Delete the user
+    await customer.destroy();
+
+    res.status(200).json({ message: "customer deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
