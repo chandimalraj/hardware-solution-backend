@@ -7,5 +7,6 @@ router.post("/login",salesRepController.loginSalesRep);
 router.post("/addSalesRep",auth,salesRepController.addSalesRep);
 router.post("/editSalesRep",auth,salesRepController.editSalesRep);
 router.get("/getSalesReps",auth,salesRepController.getSalesReps);
+router.delete("/deleteSalesRep",auth,salesRepController.deleteSalesRep);
 
 module.exports = router

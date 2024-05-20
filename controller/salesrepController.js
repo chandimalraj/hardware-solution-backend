@@ -106,3 +106,26 @@ exports.getSalesReps = async (req, res) => {
     });
   }
 };
+
+exports.deleteSalesRep = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    // Find the user by ID
+    const salesrep = await SalesRep.findByPk(id);
+
+    if (!salesrep) {
+      return res.status(404).json({ message: "Salesrep not found" });
+    }
+
+    // Delete the user
+    await salesrep.destroy();
+
+    res.status(200).json({ message: "Salesrep deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
