@@ -2,7 +2,8 @@ const config = require("config");
 const Order = require("../models/order.model");
 const OrderItem = require("../models/order_items.model");
 const axios = require("axios");
-const sequelize = require('../config/database');
+const sequelize = require("../config/database");
+const Customer = require("../models/customer.model");
 
 exports.addOrder = async (req, res) => {
   const { id, paymentType, customerId, salesrepId, order_items } = req.body;
@@ -94,6 +95,32 @@ exports.editOrder = async (req, res) => {
       status: 201,
       message: "Order Updated Successfully",
       data: saved.dataValues,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  try {
+    const records = await Order.findAll();
+    const modifiedRecords = await Promise.all(
+      records.map(async (record, index) => {
+        const customer = await Customer.findByPk(record?.customerId);
+        return {
+          ...record,
+          customer: customer,
+        };
+      })
+    );
+
+    res.status(200).json({
+      status: 200,
+      message: "Orders Fetched Successfully",
+      data: modifiedRecords,
     });
   } catch (error) {
     console.log(error);
