@@ -5,6 +5,7 @@ const axios = require("axios");
 const sequelize = require("../config/database");
 const Customer = require("../models/customer.model");
 const Salesrep = require("../models/salesrep.model");
+const OrderItems = require("../models/order_items.model");
 
 exports.addOrder = async (req, res) => {
   const { id, paymentType, customerId, salesrepId, order_items } = req.body;
@@ -129,6 +130,35 @@ exports.getOrders = async (req, res) => {
       message: "Orders Fetched Successfully",
       data: modifiedRecords,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+exports.getItemsByOrder = async (req, res) => {
+  const { id } = req.query;
+  try {
+    const order = await Order.findByPk(id);
+    if (!order) {
+      return res.status(404).json({
+        status: 404,
+        message: "There is no order",
+      });
+    } else {
+      const records = await OrderItems.findAll({
+        where: {
+          orderId: id,
+        },
+      });
+      res.status(200).json({
+        status: 200,
+        message: "Order Items Fetched Successfully",
+        data: records,
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
