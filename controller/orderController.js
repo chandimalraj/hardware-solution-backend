@@ -109,9 +109,9 @@ exports.getOrders = async (req, res) => {
     const records = await Order.findAll();
     const modifiedRecords = await Promise.all(
       records.map(async (record, index) => {
-        const customer = await Customer.findByPk(record?.customerId);
+        const customer = await Customer.findByPk(record?.dataValues?.customerId);
         return {
-          ...record,
+          ...record.dataValues,
           customer: customer,
         };
       })
