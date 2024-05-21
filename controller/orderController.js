@@ -4,6 +4,7 @@ const OrderItem = require("../models/order_items.model");
 const axios = require("axios");
 const sequelize = require("../config/database");
 const Customer = require("../models/customer.model");
+const Salesrep = require("../models/salesrep.model");
 
 exports.addOrder = async (req, res) => {
   const { id, paymentType, customerId, salesrepId, order_items } = req.body;
@@ -109,10 +110,16 @@ exports.getOrders = async (req, res) => {
     const records = await Order.findAll();
     const modifiedRecords = await Promise.all(
       records.map(async (record, index) => {
-        const customer = await Customer.findByPk(record?.dataValues?.customerId);
+        const customer = await Customer.findByPk(
+          record?.dataValues?.customerId
+        );
+        const salesrep = await Salesrep.findByPk(
+          record?.dataValues?.salesrepId
+        );
         return {
           ...record.dataValues,
           customer: customer,
+          salesRep: salesrep,
         };
       })
     );
