@@ -8,6 +8,6 @@ const upload = multer();
 
 router.post("/addOrder",authSalesRep,orderController.addOrder);
 router.post("/editOrder",auth,orderController.editOrder);
-router.post("/getOrders",authSalesRep,orderController.getOrders);
+router.get("/getOrders",authSalesRep,orderController.getOrders);
 
 module.exports = router;
