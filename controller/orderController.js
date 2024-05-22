@@ -6,6 +6,7 @@ const sequelize = require("../config/database");
 const Customer = require("../models/customer.model");
 const Salesrep = require("../models/salesrep.model");
 const OrderItems = require("../models/order_items.model");
+const Item = require("../models/item.model");
 
 exports.addOrder = async (req, res) => {
   const { id, paymentType, customerId, salesrepId, order_items } = req.body;
@@ -153,10 +154,20 @@ exports.getItemsByOrder = async (req, res) => {
           orderId: id,
         },
       });
+      const modifiedOrderItems = await Promise.all(
+        records.map(async (record, index) => {
+          const itemRecord = await Item.findByPk(record.itemId);
+          return {
+            ...record,
+            item: itemRecord,
+          };
+        })
+      );
+
       res.status(200).json({
         status: 200,
         message: "Order Items Fetched Successfully",
-        data: records,
+        data: modifiedOrderItems,
       });
     }
   } catch (error) {
