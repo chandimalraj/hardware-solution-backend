@@ -157,9 +157,9 @@ exports.getItemsByOrder = async (req, res) => {
       console.log(records[0].dataValues)
       const modifiedOrderItems = await Promise.all(
         records.map(async (record, index) => {
-          const itemRecord = await Item.findByPk(record.itemId);
+          const itemRecord = await Item.findByPk(record.dataValues.itemId);
           return {
-            ...record,
+            ...record.dataValues,
             item: itemRecord,
           };
         })
