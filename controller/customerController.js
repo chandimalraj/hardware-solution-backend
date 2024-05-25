@@ -4,13 +4,25 @@ const axios = require("axios");
 const { Op } = require("sequelize");
 
 exports.addCustomer = async (req, res) => {
-  const { id, customer_name, customer_address } = req.body;
+  const {
+    id,
+    customer_name,
+    customer_address,
+    customer_code,
+    mobile,
+    telephone,
+    area,
+  } = req.body;
 
   try {
     const data = {
       // id: id,
       customer_name: customer_name,
       customer_address: customer_address,
+      customer_code: customer_code,
+      mobile: mobile,
+      telephone: telephone,
+      area: area,
     };
 
     const savedData = await Customer.create(data);
@@ -27,7 +39,15 @@ exports.addCustomer = async (req, res) => {
 };
 
 exports.editCustomer = async (req, res) => {
-  const { id, customer_name, customer_address } = req.body;
+  const {
+    id,
+    customer_name,
+    customer_address,
+    customer_code,
+    mobile,
+    telephone,
+    area,
+  } = req.body;
   console.log(req.body);
 
   try {
@@ -35,6 +55,10 @@ exports.editCustomer = async (req, res) => {
 
     record.customer_name = customer_name;
     record.customer_address = customer_address;
+    record.customer_code = customer_code;
+    record.mobile = mobile;
+    record.telephone = telephone;
+    record.area = area;
 
     const saved = await record.save();
 
@@ -98,7 +122,6 @@ exports.getCustomersByName = async (req, res) => {
     });
   }
 };
-
 
 exports.deleteCustomer = async (req, res) => {
   const { id } = req.query;

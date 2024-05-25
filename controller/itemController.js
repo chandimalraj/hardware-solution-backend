@@ -5,7 +5,7 @@ const FormData = require("form-data");
 const { Op } = require("sequelize");
 
 exports.addItem = async (req, res) => {
-  const { id, name, image_url, quantity, price, category } = req.body;
+  const { id, name, image_url, price, category ,unit ,supplier } = req.body;
 
   try {
     const data = {
@@ -13,7 +13,8 @@ exports.addItem = async (req, res) => {
       name: name,
       image_url: image_url,
       category: category,
-      quantity: quantity,
+      unit: unit,
+      supplier:supplier,
       price: price,
     };
 
@@ -106,7 +107,7 @@ const uploadImage = async (file) => {
 };
 
 exports.editItem = async (req, res) => {
-  const { id, name, image_url, quantity, price, category } = req.body;
+  const { id, name, image_url, unit, price, category ,supplier } = req.body;
   console.log(req.body);
 
   try {
@@ -117,9 +118,11 @@ exports.editItem = async (req, res) => {
 
       record.image_url = image_url;
       record.name = name;
-      record.quantity = quantity;
+      record.unit = unit;
       record.price = price;
       record.category = category;
+      record.supplier = supplier;
+
       const saved = await record.save();
       res.status(201).json({
         status: 201,
@@ -130,7 +133,8 @@ exports.editItem = async (req, res) => {
     }
     if (image_url) {
       record.name = name;
-      record.quantity = quantity;
+      record.unit = unit;
+      record.supplier = supplier;
       record.price = price;
       record.category = category;
       const saved = await record.save();
@@ -143,9 +147,10 @@ exports.editItem = async (req, res) => {
     }
 
     record.name = name;
-    record.quantity = quantity;
+    record.unit = unit;
     record.price = price;
     record.category = category;
+    record.supplier = supplier;
     const saved = await record.save();
 
     res.status(201).json({
