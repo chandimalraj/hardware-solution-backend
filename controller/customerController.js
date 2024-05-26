@@ -147,17 +147,22 @@ exports.deleteCustomer = async (req, res) => {
 };
 
 exports.getCustomersByAreas = async (req, res) => {
-  
   try {
     const areas = req.query.areas;
-    
-    if (!areas) {
-      return res.status(400).json({ error: 'Areas query parameter is required' });
-    }
 
+    if (!areas) {
+      return res
+        .status(400)
+        .json({ error: "Areas query parameter is required" });
+    }
+    let areaList;
     // If areas is a single string, convert it to an array
-    const areaList = Array.isArray(areas) ? areas : [areas];
-    console.log(areaList)
+    //const areaList = Array.isArray(areas) ? areas : [areas];
+    areaList = JSON.parse(areas);
+    if (!Array.isArray(areaList)) {
+      return res.status(400).json({ error: "Areas must be an array" });
+    }
+    console.log(areaList);
     const customers = await Customer.findAll({
       where: {
         area: {
