@@ -157,7 +157,7 @@ exports.getCustomersByAreas = async (req, res) => {
 
     // If areas is a single string, convert it to an array
     const areaList = Array.isArray(areas) ? areas : [areas];
-
+    console.log(areaList)
     const customers = await Customer.findAll({
       where: {
         area: {
