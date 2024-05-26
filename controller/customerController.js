@@ -145,3 +145,36 @@ exports.deleteCustomer = async (req, res) => {
     });
   }
 };
+
+exports.getCustomersByAreas = async (req, res) => {
+  
+  try {
+    const areas = req.query.areas;
+    
+    if (!areas) {
+      return res.status(400).json({ error: 'Areas query parameter is required' });
+    }
+
+    // If areas is a single string, convert it to an array
+    const areaList = Array.isArray(areas) ? areas : [areas];
+
+    const customers = await Customer.findAll({
+      where: {
+        area: {
+          [Op.in]: areaList, // Case-insensitive search for name
+        },
+      },
+    });
+    console.log(customers);
+    res.status(200).json({
+      status: 200,
+      message: "Customers Are Fetched Successfully",
+      data: customers,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
