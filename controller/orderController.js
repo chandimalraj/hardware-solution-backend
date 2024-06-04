@@ -190,16 +190,31 @@ exports.getOrdersByCustomerCode = async (req, res) => {
 
     if (customer) {
       console.log(customer);
-      const customerId = customer.dataValues.id
+      const customerId = customer.dataValues.id;
       const orders = await Order.findAll({
         where: {
           customerId: customerId,
         },
       });
+      const modifiedRecords = await Promise.all(
+        orders.map(async (record, index) => {
+          const customer = await Customer.findByPk(
+            record?.dataValues?.customerId
+          );
+          const salesrep = await Salesrep.findByPk(
+            record?.dataValues?.salesrepId
+          );
+          return {
+            ...record.dataValues,
+            customer: customer,
+            salesRep: salesrep,
+          };
+        })
+      );
       res.status(200).json({
         status: 200,
         message: "Orders Fetched Successfully",
-        data: orders,
+        data: modifiedRecords,
       });
     }
 
