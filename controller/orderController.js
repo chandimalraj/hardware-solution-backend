@@ -154,7 +154,7 @@ exports.getItemsByOrder = async (req, res) => {
           orderId: id,
         },
       });
-      console.log(records[0].dataValues)
+      console.log(records[0].dataValues);
       const modifiedOrderItems = await Promise.all(
         records.map(async (record, index) => {
           const itemRecord = await Item.findByPk(record.dataValues.itemId);
@@ -171,6 +171,32 @@ exports.getItemsByOrder = async (req, res) => {
         data: modifiedOrderItems,
       });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+exports.getOrdersByCustomerCode = async (req, res) => {
+  const { code } = req.query;
+  try {
+    const customer = await Customer.findOne({
+      where: {
+        customer_code: code,
+      },
+    });
+
+    if (customer) {
+      console.log(customer);
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: "Orders Fetched Successfully",
+      data: customer,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
