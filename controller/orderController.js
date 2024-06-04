@@ -223,12 +223,58 @@ exports.getOrdersByCustomerCode = async (req, res) => {
         data: [],
       });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
 
-    // res.status(200).json({
-    //   status: 200,
-    //   message: "Orders Fetched Successfully",
-    //   data: customer,
-    // });
+exports.getOrdersBySalesRep = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const salesRep = await Salesrep.findOne({
+      where: {
+        name: name,
+      },
+    });
+
+    if (salesRep) {
+      console.log(salesRep);
+      const salesRepId = salesRep.dataValues.id;
+      const orders = await Order.findAll({
+        where: {
+          salesrepId: salesRepId,
+        },
+      });
+      const modifiedRecords = await Promise.all(
+        orders.map(async (record, index) => {
+          const customer = await Customer.findByPk(
+            record?.dataValues?.customerId
+          );
+          const salesrep = await Salesrep.findByPk(
+            record?.dataValues?.salesrepId
+          );
+          return {
+            ...record.dataValues,
+            customer: customer,
+            salesRep: salesrep,
+          };
+        })
+      );
+      res.status(200).json({
+        status: 200,
+        message: "Orders Fetched Successfully",
+        data: modifiedRecords,
+      });
+    } else {
+      res.status(200).json({
+        status: 200,
+        message: "Orders Fetched Successfully",
+        data: [],
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
