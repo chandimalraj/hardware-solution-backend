@@ -191,7 +191,7 @@ exports.getOrdersByCustomerCode = async (req, res) => {
     if (customer) {
       console.log(customer);
       const customerId = customer.dataValues.id
-      const orders = await Customer.findAll({
+      const orders = await Order.findAll({
         where: {
           customerId: customerId,
         },
