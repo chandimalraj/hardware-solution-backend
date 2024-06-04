@@ -80,24 +80,20 @@ exports.getCustomers = async (req, res) => {
 
   try {
     const getRecords = await Customer.findAll();
-    console.log(getRecords)
+    console.log(getRecords);
     const records = await Customer.findAll({
       offset: (parseInt(page) - 1) * parseInt(perPage),
       limit: parseInt(perPage),
     });
-    
     const totalCount = getRecords.length;
-    console.log(totalCount) // Total number of records
     const totalPages = Math.ceil(totalCount / parseInt(perPage));
-    console.log(totalPages) 
-    console.log(records)  // Calculate total pages
     res.status(200).json({
       status: 200,
       message: "Customers Fetched Successfully",
       data: records,
       totalPages: totalPages,
       currentPage: page,
-      pageSize: pageSize,
+      pageSize: perPage,
       totalCount: totalCount,
     });
   } catch (error) {
