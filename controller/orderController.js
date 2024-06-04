@@ -190,13 +190,24 @@ exports.getOrdersByCustomerCode = async (req, res) => {
 
     if (customer) {
       console.log(customer);
+      const customerId = customer.dataValues.id
+      const orders = await Customer.findAll({
+        where: {
+          customerId: customerId,
+        },
+      });
+      res.status(200).json({
+        status: 200,
+        message: "Orders Fetched Successfully",
+        data: orders,
+      });
     }
 
-    res.status(200).json({
-      status: 200,
-      message: "Orders Fetched Successfully",
-      data: customer,
-    });
+    // res.status(200).json({
+    //   status: 200,
+    //   message: "Orders Fetched Successfully",
+    //   data: customer,
+    // });
   } catch (error) {
     console.log(error);
     res.status(500).json({
