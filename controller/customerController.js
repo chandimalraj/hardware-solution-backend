@@ -80,6 +80,7 @@ exports.getCustomers = async (req, res) => {
 
   try {
     const getRecords = await Customer.findAll();
+    console.log(getRecords)
     const records = await Customer.findAll({
       offset: (parseInt(page) - 1) * parseInt(perPage),
       limit: parseInt(perPage),
