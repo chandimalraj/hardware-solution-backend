@@ -79,15 +79,27 @@ exports.getCustomers = async (req, res) => {
   const { page, perPage } = req.query;
 
   try {
-    const customers = await Customer.findAll({
+    const getRecords = await Customer.findAll();
+    const records = await Customer.findAll({
       offset: (parseInt(page) - 1) * parseInt(perPage),
       limit: parseInt(perPage),
     });
-    console.log(customers);
+    // console.log(records);
+    // res.status(200).json({
+    //   status: 200,
+    //   message: "records Are Fetched Successfully",
+    //   data: records,
+    // });
+    const totalCount = getRecords.length; // Total number of records
+    const totalPages = Math.ceil(totalCount / parseInt(perPage)); // Calculate total pages
     res.status(200).json({
       status: 200,
-      message: "Customers Are Fetched Successfully",
-      data: customers,
+      message: "Customers Fetched Successfully",
+      data: records,
+      totalPages: totalPages,
+      currentPage: page,
+      pageSize: pageSize,
+      totalCount: totalCount,
     });
   } catch (error) {
     res.status(500).json({
