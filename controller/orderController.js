@@ -216,6 +216,12 @@ exports.getOrdersByCustomerCode = async (req, res) => {
         message: "Orders Fetched Successfully",
         data: modifiedRecords,
       });
+    } else {
+      res.status(200).json({
+        status: 200,
+        message: "Orders Fetched Successfully",
+        data: [],
+      });
     }
 
     // res.status(200).json({
