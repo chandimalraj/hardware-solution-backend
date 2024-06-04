@@ -85,13 +85,9 @@ exports.getCustomers = async (req, res) => {
       offset: (parseInt(page) - 1) * parseInt(perPage),
       limit: parseInt(perPage),
     });
-    // console.log(records);
-    // res.status(200).json({
-    //   status: 200,
-    //   message: "records Are Fetched Successfully",
-    //   data: records,
-    // });
-    const totalCount = getRecords.length; // Total number of records
+    
+    const totalCount = getRecords.length;
+    console.log(totalCount) // Total number of records
     const totalPages = Math.ceil(totalCount / parseInt(perPage)); // Calculate total pages
     res.status(200).json({
       status: 200,
