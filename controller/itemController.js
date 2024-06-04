@@ -230,8 +230,8 @@ exports.getItemsByName = async (req, res) => {
           [Op.like]: `${name}%`, // Case-insensitive search for name
         },
       },
-      offset: (page - 1) * pageSize,
-      limit: pageSize,
+      offset: (parseInt(page) - 1) * parseInt(pageSize),
+      limit: parseInt(pageSize),
     });
     const totalCount = items.length; // Total number of records
     const totalPages = Math.ceil(totalCount / pageSize); // Calculate total pages
