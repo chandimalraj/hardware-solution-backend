@@ -164,11 +164,18 @@ exports.getItemsByOrder = async (req, res) => {
           };
         })
       );
-
+      let x = 0;
+      const total = modifiedOrderItems.forEach((item,index)=>{
+          x = item?.quantity * item?.item?.price + x
+      })
+      const data = {
+        data:modifiedOrderItems,
+        total:x
+      }
       res.status(200).json({
         status: 200,
         message: "Order Items Fetched Successfully",
-        data: modifiedOrderItems,
+        data:data,
       });
     }
   } catch (error) {
