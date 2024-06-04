@@ -10,7 +10,7 @@ router.post("/addOrder",authSalesRep,orderController.addOrder);
 router.post("/editOrder",auth,orderController.editOrder);
 router.get("/getOrders",authSalesRep,orderController.getOrders);
 router.get("/getItemsByOrder",authSalesRep,orderController.getItemsByOrder);
-router.get("/getOrdersByCustomerCode",auth,orderController.getOrderByCustomerCode);
+router.get("/getOrdersByCustomerCode",auth,orderController.getOrdersByCustomerCode);
 
 
 module.exports = router;
