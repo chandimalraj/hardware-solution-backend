@@ -297,7 +297,7 @@ exports.deleteOrder = async (req, res) => {
   try {
     // Find the user by ID
     const transaction = await sequelize.transaction();
-    const order = await Order.findByPk(id, { transaction: t });
+    const order = await Order.findByPk(id, { transaction: transaction });
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
