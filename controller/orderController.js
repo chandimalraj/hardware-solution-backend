@@ -165,17 +165,17 @@ exports.getItemsByOrder = async (req, res) => {
         })
       );
       let x = 0;
-      const total = modifiedOrderItems.forEach((item,index)=>{
-          x = item?.quantity * item?.item?.price + x
-      })
+      const total = modifiedOrderItems.forEach((item, index) => {
+        x = item?.quantity * item?.item?.price + x;
+      });
       const data = {
-        data:modifiedOrderItems,
-        total:x
-      }
+        data: modifiedOrderItems,
+        total: x,
+      };
       res.status(200).json({
         status: 200,
         message: "Order Items Fetched Successfully",
-        data:data,
+        data: data,
       });
     }
   } catch (error) {
@@ -282,6 +282,41 @@ exports.getOrdersBySalesRep = async (req, res) => {
         data: [],
       });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+
+exports.deleteOrder = async (req, res) => {
+  const { id } = req.query;
+
+  try {
+    // Find the user by ID
+    const t = await sequelize.transaction();
+    const order = await Order.findByPk(id, { transaction: t });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    await OrderItem.destroy({
+      where:{orderId:id},
+      transaction:t
+    }) 
+    const result = await Order.destroy({
+      where: { id: id },
+      transaction:t
+    });
+
+    if (result) {
+      await transaction.commit();
+      res.status(200).send({ message: 'Order and associated items deleted successfully' });
+    } 
+
+   
   } catch (error) {
     console.log(error);
     res.status(500).json({
