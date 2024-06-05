@@ -16,6 +16,11 @@ const Order = sequelize.define("order", {
     allowNull: false,
     // unique:true
   },
+  pending:{
+    type:DataTypes.BOOLEAN,
+    defaultValue:false,
+    allowNull: false
+  }
 });
 
 Order.belongsToMany(Item, { through: OrderItems });
