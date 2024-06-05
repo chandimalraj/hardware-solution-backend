@@ -296,7 +296,7 @@ exports.deleteOrder = async (req, res) => {
 
   try {
     // Find the user by ID
-    const t = await sequelize.transaction();
+    const transaction = await sequelize.transaction();
     const order = await Order.findByPk(id, { transaction: t });
 
     if (!order) {
@@ -304,11 +304,11 @@ exports.deleteOrder = async (req, res) => {
     }
     await OrderItem.destroy({
       where:{orderId:id},
-      transaction:t
+      transaction
     }) 
     const result = await Order.destroy({
       where: { id: id },
-      transaction:t
+      transaction
     });
 
     if (result) {
