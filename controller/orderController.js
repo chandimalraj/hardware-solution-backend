@@ -343,7 +343,7 @@ exports.setOrderAccepted = async (req, res) => {
     }
 
     if (status == "ACCEPTED") {
-      order.pending = true;
+      order.pending = false;
       const saved = await order.save();
 
       res.status(201).json({
