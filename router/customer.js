@@ -20,4 +20,5 @@ router.get(
   authSalesRep,
   customerController.getCustomersByAreas
 );
+
 module.exports = router;

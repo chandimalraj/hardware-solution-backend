@@ -13,6 +13,6 @@ router.get("/getItemsByOrder",authSalesRep,orderController.getItemsByOrder);
 router.get("/getOrdersByCustomerCode",auth,orderController.getOrdersByCustomerCode);
 router.get("/getOrdersBySalesRep",auth,orderController.getOrdersBySalesRep);
 router.delete("/deleteOrder",auth,orderController.deleteOrder);
-
+router.post("/setOrderAccepted",auth,orderController.setOrderAccepted);
 
 module.exports = router;

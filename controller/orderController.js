@@ -290,7 +290,6 @@ exports.getOrdersBySalesRep = async (req, res) => {
   }
 };
 
-
 exports.deleteOrder = async (req, res) => {
   const { id } = req.query;
 
@@ -303,20 +302,58 @@ exports.deleteOrder = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
     await OrderItem.destroy({
-      where:{orderId:id},
-      transaction
-    }) 
+      where: { orderId: id },
+      transaction,
+    });
     const result = await Order.destroy({
       where: { id: id },
-      transaction
+      transaction,
     });
 
     if (result) {
       await transaction.commit();
-      res.status(200).send({ message: 'Order and associated items deleted successfully' });
-    } 
+      res
+        .status(200)
+        .send({ message: "Order and associated items deleted successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
 
-   
+exports.setOrderAccepted = async (req, res) => {
+  const { orderId, status } = req.body;
+
+  try {
+    // Find the user by ID
+    if (!orderId) {
+      return res.status(404).json({ message: "Order Id not found" });
+    }
+    if (!status) {
+      return res.status(404).json({ message: "Status not found" });
+    }
+
+    const order = await Order.findByPk(id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (status == "ACCEPTED") {
+      order.pending = true;
+      const saved = await order.save();
+
+      res.status(201).json({
+        status: 201,
+        message: "Order Status Updated Successfully",
+        data: saved.dataValues,
+      });
+    } else {
+      return res.status(404).json({ message: "ACCEPTED Status not found" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
