@@ -108,8 +108,19 @@ exports.editOrder = async (req, res) => {
 };
 
 exports.getOrders = async (req, res) => {
+  const { page, perPage } = req.query;
+
   try {
-    const records = await Order.findAll();
+    const getRecords = await Order.findAll();
+    const records = await Order.findAll({
+      offset: (parseInt(page) - 1) * parseInt(perPage),
+      limit: parseInt(perPage),
+    });
+
+    const totalCount = getRecords.length;
+    const totalPages = Math.ceil(totalCount / parseInt(perPage));
+
+
     const modifiedRecords = await Promise.all(
       records.map(async (record, index) => {
         const customer = await Customer.findByPk(
@@ -130,6 +141,10 @@ exports.getOrders = async (req, res) => {
       status: 200,
       message: "Orders Fetched Successfully",
       data: modifiedRecords,
+      totalPages: totalPages,
+      currentPage: page,
+      pageSize: perPage,
+      totalCount: totalCount,
     });
   } catch (error) {
     console.log(error);
