@@ -336,7 +336,7 @@ exports.setOrderAccepted = async (req, res) => {
       return res.status(404).json({ message: "Status not found" });
     }
 
-    const order = await Order.findByPk(id);
+    const order = await Order.findByPk(orderId);
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
